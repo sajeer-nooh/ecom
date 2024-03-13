@@ -3,9 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
-class GetMerchantAPIView(APIView):
+class GeCustomerAPIView(APIView):
     def get(self, request):
         return Response({
-            'name': 'Merchant: mena'
+            'name': 'Customer: mena'
         })
-    

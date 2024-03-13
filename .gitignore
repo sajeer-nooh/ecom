@@ -4,3 +4,5 @@ ordable_env
 .DS_Store
 .env
 migrations
+Pipfile
+__init__.py

@@ -50,6 +50,7 @@ class Product(models.Model):
     price = models.FloatField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     merchant = models.OneToOneField(Merchant, on_delete=models.CASCADE)
+    stock = models.PositiveIntegerField(default=0)
     def get_image_filename(instance, filename):
         title = instance.product.title
         return "product_images/%s-%s" % (title, filename)  
