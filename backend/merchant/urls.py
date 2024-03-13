@@ -1,6 +1,6 @@
 from django.urls import path
-from merchant.views import GetMerchentAPIView
+from merchant.views import GetMerchantAPIView
 
 urlpatterns = [
-    path('get-merchent', GetMerchentAPIView.as_view())
+    path('get-merchant', GetMerchantAPIView.as_view())
 ]
