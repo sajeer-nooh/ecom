@@ -8,7 +8,7 @@ from django.dispatch import receiver
 
 from merchant.models import Merchant, Product
 
-STATUS_CHOICES = (
+ORDER_STATUS_CHOICES = (
     ('pending', 'Pending'),
     ('processing', 'Processing'),
     ('shipped', 'Shipped'),
@@ -18,6 +18,12 @@ STATUS_CHOICES = (
 PAYMENT_CHOICES = (
     ('cash', 'Cash on Delivery'),
     ('online', 'KNET/Credit/Debit Card'),
+)
+
+PAYMENT_STATUS_CHOICES = (
+    ('pending', 'Pending'),
+    ('successful', 'Successful'),
+    ('failed', 'Failed'),
 )
 
 class UserManager(BaseUserManager):
@@ -54,10 +60,16 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE)
     placed_at = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='pending')
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='cash')
     items = models.ManyToManyField(Product, through='OrderItem', related_name='orders')
+
+class Payment(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='pending')
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='cash')
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)

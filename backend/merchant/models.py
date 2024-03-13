@@ -23,7 +23,6 @@ class Merchant(AbstractBaseUser):
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(unique=True)
     store_name = models.CharField(max_length=255)
-    currencies = ArrayField(models.CharField(max_length=10, blank=True),size=5),
     address = models.TextField(blank=True) 
     opening_hour = models.TimeField(blank=True, null=True)
     closing_hour = models.TimeField(blank=True, null=True)
@@ -49,12 +48,13 @@ class Product(models.Model):
     descriptionAr = models.CharField(max_length=200)
     price = models.FloatField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    merchant = models.OneToOneField(Merchant, on_delete=models.CASCADE)
+    merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE)
     stock = models.PositiveIntegerField(default=0)
-    def get_image_filename(instance, filename):
-        title = instance.product.title
-        return "product_images/%s-%s" % (title, filename)  
+    media = ArrayField(models.CharField(blank=True),size=10),
+#     def get_image_filename(instance, filename):
+#         title = instance.product.title
+#         return "product_images/%s-%s" % (title, filename)  
 
-class Image(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='product_images/', verbose_name='Image')
+# class Image(models.Model):
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
+#     image = models.ImageField(upload_to='product_images/', verbose_name='Image')
