@@ -1,18 +1,11 @@
 from django.db import models
 import uuid
+from category.models import Category
 from user.models import User
 
 class Brand(models.Model):
     """
     Product brancd. Single priduct can have only one brand
-    """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=100, unique=True)
-
-
-class Category(models.Model):
-    """
-    Product category. Single priduct can have only many categories
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, unique=True)
@@ -29,7 +22,7 @@ class Product(models.Model):
     merchant = models.ForeignKey(User, on_delete=models.CASCADE)  # Merchant type role user
     images = models.JSONField(default=list)
     color = models.CharField(max_length=100)
-    brand = models.ForeignKey(Brand,  on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     categories = models.ManyToManyField(Category)  # One product can come under multiple categories
 
 
