@@ -6,14 +6,16 @@ import uuid
 from django.db import models
 
 
-
 class Store(models.Model):
     """
     To identify user role either as Customer or Merchant with same(single) user model
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=100, db_index=True)
-    merchant = models.ForeignKey(User, on_delete=models.CASCADE)  # Merchant type role user
+    name = models.TextField(blank=True) 
+    opening_hour = models.TimeField(blank=True, null=True)
+    closing_hour = models.TimeField(blank=True, null=True)
+    address = models.TextField(max_length=250, blank=True, null=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)  # Merchant type role user
 
 
 class StoreProduct(models.Model):

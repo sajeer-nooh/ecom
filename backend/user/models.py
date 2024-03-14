@@ -70,17 +70,6 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="customer", blank=True)
 
 
-class Merchant(models.Model):
-    """
-    Merchant user model implementation
-    """
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="merchant")
-    store_name = models.TextField(blank=True) 
-    opening_hour = models.TimeField(blank=True, null=True)
-    closing_hour = models.TimeField(blank=True, null=True)
-    currency = models.CharField(max_length=10, default='KWD')
-
-
 
 class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='address')

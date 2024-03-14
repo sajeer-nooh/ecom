@@ -1,7 +1,7 @@
 from django.db import models
 from cart.models import Checkout
-from user.models import Merchant, User
-from store.models import StoreProduct
+from user.models import User
+from store.models import Store, StoreProduct
 
 ORDER_STATUS_CHOICES = [
     ('pending', 'Pending'),
@@ -28,7 +28,7 @@ class Order(models.Model):
     checkout = models.OneToOneField(Checkout, on_delete=models.CASCADE)
     delivery_address = models.CharField(max_length=100, null=True, default='')
     order_type = models.CharField(max_length=20, choices=ORDER_TYPE_CHOICES, default='delivery')
-    merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE)  # Connect to the Merchant model
+    store = models.ForeignKey(Store, on_delete=models.CASCADE)
     order_type = models.CharField(max_length=20, choices=ORDER_TYPE_CHOICES, default='delivery')
 
 class OrderItem(models.Model):
