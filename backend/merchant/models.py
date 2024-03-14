@@ -1,60 +1,36 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.db import models
 
-class UserManager(BaseUserManager):
-    def create_user(self, username, email, password=None):
-        if not username:
-            raise ValueError('Users must have a username')
-        if not email:
-            raise ValueError('Users must have an email address')
-
-        user = self.model(
-            username=username,
-            email=email,
-        )
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-class Merchant(AbstractBaseUser):
-    username = models.CharField(max_length=100, unique=True)
+class Merchant(models.Model):
+    store_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    store_name = models.CharField(max_length=255)
+    password = models.CharField(max_length=100)
     address = models.TextField(blank=True) 
     opening_hour = models.TimeField(blank=True, null=True)
     closing_hour = models.TimeField(blank=True, null=True)
-
-
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
-
-    objects = UserManager()
+    currency = models.CharField(max_length=10, default='KWD')
 
     def __str__(self):
-        return self.username
+        return self.name
 
-class Category(models.Model):
-    name = models.CharField(max_length=50)
-    nameAr = models.CharField(max_length=50)
+class ProductCategory(models.Model):
+    name = models.CharField(max_length=100)
+    merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
-    title = models.CharField(max_length=100)
-    titleAr = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    nameAr = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.CharField(max_length=200)
-    descriptionAr = models.CharField(max_length=200)
-    price = models.FloatField()
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE)
+    descriptionAr = models.CharField(max_length=200)    
     stock = models.PositiveIntegerField(default=0)
-    media = ArrayField(models.CharField(blank=True),size=10),
-#     def get_image_filename(instance, filename):
-#         title = instance.product.title
-#         return "product_images/%s-%s" % (title, filename)  
+    merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE)
+    images = models.JSONField(default=list)
+    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
 
-# class Image(models.Model):
-#     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
-#     image = models.ImageField(upload_to='product_images/', verbose_name='Image')
+    def __str__(self):
+        return self.name

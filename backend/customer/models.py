@@ -1,86 +1,73 @@
 from django.db import models
-
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.db import models
+from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from merchant.models import Product
 
-from merchant.models import Merchant, Product
-
-ORDER_STATUS_CHOICES = (
-    ('pending', 'Pending'),
-    ('processing', 'Processing'),
-    ('shipped', 'Shipped'),
-    ('delivered', 'Delivered'),
-)
-
-PAYMENT_CHOICES = (
-    ('cash', 'Cash on Delivery'),
-    ('online', 'KNET/Credit/Debit Card'),
-)
-
-PAYMENT_STATUS_CHOICES = (
-    ('pending', 'Pending'),
-    ('successful', 'Successful'),
-    ('failed', 'Failed'),
-)
-
-class UserManager(BaseUserManager):
-    def create_user(self, username, email, password=None):
-        if not username:
-            raise ValueError('Users must have a username')
-        if not email:
-            raise ValueError('Users must have an email address')
-
-        user = self.model(
-            username=username,
-            email=email,
-        )
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-class Customer(AbstractBaseUser):
+class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default=1)
+    email = models.EmailField()
     username = models.CharField(max_length=100, unique=True)
-    email = models.EmailField(unique=True)
-    currency = models.CharField(max_length=10),
-    language = models.CharField(max_length=2),
-    address = models.TextField(blank=True) 
-
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
-
-    objects = UserManager()
+    language = models.CharField(max_length=5, default='AR')
+    address = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
-        return self.username
+        return self.name
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
 
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE)
-    placed_at = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='pending')
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='cash')
-    items = models.ManyToManyField(Product, through='OrderItem', related_name='orders')
+    ORDER_TYPE_CHOICES = [
+        ('delivery', 'Delivery'),
+        ('pickup', 'Pickup'),
+    ]
 
-class Payment(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='pending')
-    payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='cash')
+    PAYMENT_METHOD_CHOICES = [
+        ('cash', 'Cash'),
+        ('online', 'Online'),
+    ]
+
+    ORDER_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    ]
+
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Product, through='OrderItem')
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='pending')
+    delivery_address = models.CharField(max_length=100, null=True, default='')
+    payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD_CHOICES, default='cash')
+    merchant = models.CharField(max_length=100)
+    order_type = models.CharField(max_length=20, choices=ORDER_TYPE_CHOICES, default='delivery')
+
+    def __str__(self):
+        return f'Order #{self.pk}'
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField()
 
+    def __str__(self):
+        return f'{self.product.name} - {self.quantity}'
 class Cart(models.Model):
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Product, through='CartItem')
+
+    def __str__(self):
+        return f'Cart for {self.customer.username}'
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f'{self.product.name} - {self.quantity}'
