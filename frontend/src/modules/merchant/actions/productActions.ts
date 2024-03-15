@@ -30,11 +30,14 @@ export const createProduct = async (e: any) => {
             return alert('You can only upload 3 images at a time')
         }
         const files = [];
-        for (let index = 0; index < formData.getAll('images').length; index++) {
-            const file = formData.getAll('images')[index] as File; 
-            
-            const url = await uploadFile(file)
-            files.push(url)
+        
+        if(files.length > 0) {
+            for (let index = 0; index < formData.getAll('images').length; index++) {
+                const file = formData.getAll('images')[index] as File; 
+                
+                const url = await uploadFile(file)
+                files.push(url)
+            }
         }
 
         const product = {
