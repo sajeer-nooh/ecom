@@ -1,8 +1,19 @@
+import { useEffect } from "react";
+import OrdersTable from "../views/Order/Table";
+import { fetchStoreOrders } from "../actions/orderActions";
+
 
 const Orders = () => {
-  return (
-    <div>
-        <p>Orders page!</p>
+  
+  
+  useEffect(() => {  
+    fetchStoreOrders()
+  }, []);
+
+
+return (
+    <div className="flex">
+        <OrdersTable />
     </div>
   );
 };

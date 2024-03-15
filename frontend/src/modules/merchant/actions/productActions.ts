@@ -9,7 +9,7 @@ return Math.random().toString(36).substring(2, length+2);
 
 export const fetchStoreProducts = async (storeId: number) => {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/product/list/?created_by=${1}`);
+        const response = await fetch(`http://127.0.0.1:8000/product/store/list/?created_by=${1}`);
         const data = await response.json();
         store.dispatch(merchanStore.getStoreProducts(data));
         return data;

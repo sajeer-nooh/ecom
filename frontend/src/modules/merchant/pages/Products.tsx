@@ -1,9 +1,6 @@
-import { useEffect, useState } from "react";
-import ProductsTable from "../components/Products/Table";
-import { get } from "http";
+import { useEffect } from "react";
+import ProductsTable from "../views/Products/Table";
 import { fetchStoreProducts } from "../actions/productActions";
-import { MERCHANT_STORE_NAME } from "../../../redux/constants";
-import { store } from "../../../redux";
 
 
 const Products = () => {

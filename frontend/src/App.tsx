@@ -8,7 +8,7 @@ import Orders from './modules/merchant/pages/Orders';
 import Categories from './modules/merchant/pages/Categories';
 import { Provider } from 'react-redux';
 import { store } from './redux';
-import SideNav from './modules/merchant/components/SideNav';
+import SideNav from './components/SideNav';
 
 const App = () => {
   const navigate = useNavigate();

@@ -19,21 +19,34 @@ import {
   SortDescriptor,
   useDisclosure
 } from "@nextui-org/react";
-import { EditIcon } from "./EditIcon";
-import { DeleteIcon } from "./DeleteIcon";
-import { EyeIcon } from "./EyeIcon";
-import { ChevronDownIcon } from "./ChevronDownIcon";
-import { SearchIcon } from "./SearchIcon";
-import { columns, statusOptions } from "./data";
-import { capitalize } from "./utils";
+import { EditIcon } from "../../../../components/icons/EditIcon";
+import { DeleteIcon } from "../../../../components/icons/DeleteIcon";
+import { ChevronDownIcon } from "../../../../components/icons/ChevronDownIcon";
+import { SearchIcon } from "../../../../components/icons/SearchIcon";
+import { capitalize } from "../../../../utils";
 import AddEditProductModal from "./AddEditProductModal";
 import { store, useAppSelector } from "../../../../redux";
 import { MERCHANT_STORE_NAME } from "../../../../redux/constants";
 import { deleteProduct } from "../../actions/productActions";
-import { PlusIcon } from "./PlusIcon";
+import { PlusIcon } from "../../../../components/icons/PlusIcon";
 
 
 const INITIAL_VISIBLE_COLUMNS = ["name", "price", "stock", "category", "actions"];
+const columns = [
+  {name: "ID", uid: "id", sortable: true},
+  {name: "NAME", uid: "name", sortable: true},
+  {name: "NAME[AR]", uid: "name[ar]", sortable: true},
+  {name: "PRICE", uid: "price"},
+  {name: "STOCK", uid: "stock"},
+  {name: "CATEGORY", uid: "category", sortable: true},
+  {name: "ACTIONS", uid: "actions"},
+];
+
+const statusOptions = [
+  {name: "Active", uid: "active"},
+  {name: "Paused", uid: "paused"},
+  {name: "Vacation", uid: "vacation"},
+];
 
 export default function ProductsTable() {
   const [filterValue, setFilterValue] = React.useState("");

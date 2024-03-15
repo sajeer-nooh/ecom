@@ -33,6 +33,10 @@ export const slice = createSlice({
       console.log('getStoreProducts', action.payload)
       state.products = action.payload;
     },
+    getStoreOrders: (state, action) => {
+      console.log('getStoreOrders', action.payload)
+      state.orders = action.payload;
+    },
     deleteProdut: (state, action) => {
       console.log('deleteProdut', action.payload)
       state.products = state.products.filter((product) => product.id !== action.payload);
@@ -41,6 +45,11 @@ export const slice = createSlice({
       console.log('updateProdut', action.payload);
       const index = state.products.findIndex((product) => product.id === action.payload.id);
       state.products[index] = action.payload;
+    },
+    updateOrder: (state, action) => {
+      console.log('updateOrder', action.payload);
+      const index = state.orders.findIndex((order) => order.id === action.payload.id);
+      state.orders[index] = action.payload;
     },
     createProduct: (state, action) => {
       console.log('createProdut', action.payload);
