@@ -3,13 +3,6 @@ import uuid
 from category.models import Category
 from user.models import User
 
-class Brand(models.Model):
-    """
-    Product brancd. Single priduct can have only one brand
-    """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=100, unique=True)
-
 
 class Product(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -19,10 +12,9 @@ class Product(models.Model):
     description = models.CharField(max_length=200)
     description_ar = models.CharField(max_length=200)    
     stock = models.PositiveIntegerField(default=0)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)  # Merchant type role user
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)  # Merchant type role user
     images = models.JSONField(default=list)
-    color = models.CharField(max_length=100)
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-    categories = models.ManyToManyField(Category, related_name='products')  # One product can come under multiple categories
+    color = models.CharField(max_length=100, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True) 
 
 
