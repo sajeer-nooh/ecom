@@ -7,6 +7,12 @@ from rest_framework.response import Response
 from .models import Product
 from .serializers import ProductSerializer
 
+class GetAllProducts(APIView):
+    def get(self, request):
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
+    
 class ProductList(APIView):
     def get(self, request):
         created_by = request.GET.get('created_by')
