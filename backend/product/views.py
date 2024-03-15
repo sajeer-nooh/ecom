@@ -9,7 +9,8 @@ from .serializers import ProductSerializer
 
 class ProductList(APIView):
     def get(self, request):
-        products = Product.objects.all()
+        created_by = request.GET.get('created_by')
+        products = Product.objects.filter(created_by=created_by)
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
@@ -19,11 +20,16 @@ class ProductCreateView(APIView):
             serializer = ProductSerializer(data=request.data)
 
             if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                product = serializer.save()
+                response_data = {
+                    'id': product.id,
+                    'product': serializer.data
+                }
+                return Response(response_data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except (User.DoesNotExist, Category.DoesNotExist):
             return Response({'error': 'Invalid user or category ID provided'}, status=status.HTTP_400_BAD_REQUEST)
+
     
 class ProductDetail(APIView):
     def get(self, request, pk):
