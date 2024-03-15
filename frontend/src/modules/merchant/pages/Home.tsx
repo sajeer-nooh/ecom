@@ -1,16 +1,14 @@
-import React from "react";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
+import { useAppSelector } from "../../../redux";
+import { MERCHANT_STORE_NAME } from "../../../redux/constants";
 
-const Login = () => {
+const Home = () => {
+  const storeInfo = useAppSelector(state => state[MERCHANT_STORE_NAME].filters);
+  console.log(storeInfo);
   return (
     <div>
-        {/* <Header /> */}
-        <Sidebar />
-
         <p>Home page!</p>
     </div>
   );
 };
 
-export default Login;
+export default Home;

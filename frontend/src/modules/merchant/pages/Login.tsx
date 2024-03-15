@@ -1,5 +1,5 @@
 import React from "react";
-import { loginUser } from "../actions";
+import { loginUser } from "../actions/UserActions";
 
 const Login = () => {
   return (

@@ -3,7 +3,7 @@ export const loginUser = async (e: any) => {
         console.log(e.target)
         e.preventDefault()
         const formData = new FormData(e.target)
-        let response = await fetch('http://127.0.0.1:8000/user/register/', {
+        let response = await fetch('http://127.0.0.1:8000/api/token', {
             method: 'POST',
             body: formData,
         })
