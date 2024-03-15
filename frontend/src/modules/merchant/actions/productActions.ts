@@ -2,10 +2,7 @@ import { store } from "../../../redux";
 import { actions as merchanStore } from "../data/merchantReducer";
 import { MERCHANT_STORE_NAME } from "../../../redux/constants";
 import { createClient } from '@supabase/supabase-js'
-
-const randomId = function(length = 10) {
-return Math.random().toString(36).substring(2, length+2);
-};
+import { randomId } from "../../../utils";
 
 export const fetchStoreProducts = async (storeId: number) => {
     try {
