@@ -21,7 +21,10 @@ export const slice = createSlice({
   name: CUSTOMER_STORE_NAME,
   initialState,
   reducers: {
-    
+    getCustomerOrders: (state, action) => {
+      console.log('getCustomerOrders', action.payload)
+      state.orders = action.payload;
+    }
   },
 });
 
