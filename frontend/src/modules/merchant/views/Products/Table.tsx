@@ -22,7 +22,7 @@ import {
 import { EditIcon } from "../../../../components/icons/EditIcon";
 import { DeleteIcon } from "../../../../components/icons/DeleteIcon";
 import { ChevronDownIcon } from "../../../../components/icons/ChevronDownIcon";
-import { SearchIcon } from "../../../../components/icons/SearchIcon";
+import SearchIcon from "../../../../components/icons/SearchIcon";
 import { capitalize } from "../../../../utils";
 import AddEditProductModal from "./AddEditProductModal";
 import { store, useAppSelector } from "../../../../redux";

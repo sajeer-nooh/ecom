@@ -112,6 +112,8 @@ export default function AddEditProductModal(props: any) {
                                 type="file"
                                 multiple
                                 accept="image/*"
+                                required
+                                defaultValue=""
                                 classNames={{ innerWrapper: "mt-4 mb-2", label: "mb-3" }}
                             />}
                             <div className="flex flex-row gap-2 justify-end">

@@ -28,7 +28,7 @@ export const createProduct = async (e: any) => {
         }
         const files = [];
         
-        if(files.length > 0) {
+        if(formData.getAll('images')?.length > 0) {
             for (let index = 0; index < formData.getAll('images').length; index++) {
                 const file = formData.getAll('images')[index] as File; 
                 
@@ -57,6 +57,7 @@ export const createProduct = async (e: any) => {
         });
         const responseData = await response.json();
         store.dispatch(merchanStore.createProduct(responseData.product));
+        alert('Product created successfully')
     } catch (error) {
         console.log(error);
         return alert('Error creating product');
@@ -88,7 +89,6 @@ async function uploadFile(file: File) {
 }
 export const updateProduct = async (product: any) => {
     try {
-        console.log("updateProduct", product)
         const response = await fetch(`http://127.0.0.1:8000/product/update/${product.id}`, {
             method: 'PUT',
             body: JSON.stringify(product),
@@ -97,6 +97,7 @@ export const updateProduct = async (product: any) => {
             }
         });
         store.dispatch(merchanStore.updateProduct(product));
+        alert('Product updated successfully')
     } catch (error) {
         console.log(error)
         alert('Error deleting product');
@@ -109,6 +110,7 @@ export const deleteProduct = async (productId: number)  => {
             method: 'DELETE',
         });
         store.dispatch(merchanStore.deleteProdut(productId));
+        alert('Product deleted successfully')
     } catch (error) {
         console.log(error)
         alert('Error deleting product');

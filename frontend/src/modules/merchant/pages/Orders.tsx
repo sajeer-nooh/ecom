@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import OrdersTable from "../views/Order/Table";
+import OrdersTable from "../views/order/Table";
 import { fetchStoreOrders } from "../actions/orderActions";
 
 
