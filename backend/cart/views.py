@@ -35,7 +35,7 @@ class GetCart(APIView):
             cart = Cart.objects.get(pk=cart_id)
             # get all cart items with related products details
 
-            cart_items = cart.cartitem_set.prefetch_related("product").all().values('id', 'product__id', 'product__name', 'product__price', 'quantity')
+            cart_items = cart.cartitem_set.prefetch_related("product").all().values('id', 'product__id', 'product__name', 'product__price', 'product__images', 'quantity')
             response_data = {
                 "cart": cart.id,
                 "cart_items": cart_items
