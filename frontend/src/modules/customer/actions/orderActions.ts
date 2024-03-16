@@ -11,7 +11,7 @@ export const createOrder = async (order: any) => {
             }
         });
         const data = await response.json();
-        console.log(data)
+        alert('Order created successfully')
     } catch (error) {
         console.log(error)
     }

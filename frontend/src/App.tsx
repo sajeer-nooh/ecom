@@ -72,7 +72,7 @@ const App = () => {
                         }
                       />
                       <Route
-                        path="/customer/products"
+                        path="/products"
                         element={
                           <StoreFront />
                         }

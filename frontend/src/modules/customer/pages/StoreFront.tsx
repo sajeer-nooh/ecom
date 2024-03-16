@@ -6,6 +6,7 @@ import { fetchStoreProducts } from '../../merchant/actions/productActions';
 import { PlusIcon } from '../../../components/icons/PlusIcon';
 import { useNavigate } from 'react-router-dom';
 import NoImageIcon from '../../../components/icons/NoImageIcon';
+import { addToCart } from '../actions/cartActions';
 
 
 export default function StoreFront() {
@@ -37,7 +38,7 @@ export default function StoreFront() {
                                 <span className='text-neutral-700 text-sm truncate'>{product.name}</span>
                                 <Button size='sm' className='rounded-full' color='primary'>
                                     <p className="text-xs font-medium">{product.price} KD</p>
-                                    <PlusIcon className="h-5" />
+                                    <PlusIcon className="h-5" onClick={() => addToCart(product.id, 1)}/>
                                 </Button>
                             </div>
                         </div>

@@ -11,6 +11,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { useLocation } from 'react-router-dom';
 import { Chip } from '@nextui-org/react';
+import { addToCart } from '../actions/cartActions';
 
 
 const ProductDetails = () => {
@@ -55,7 +56,7 @@ const ProductDetails = () => {
                     {product.category}
                 </Chip>
 
-                <button className="my-4 w-full py-2 rounded-md bg-blue-600 text-white font-medium focus:outline-none focus:ring focus:ring-offset-2 focus:ring-blue-500 hover:bg-blue-700">
+                <button onClick={() => addToCart(product.id, 1)} className="my-4 w-full py-2 rounded-md bg-blue-600 text-white font-medium focus:outline-none focus:ring focus:ring-offset-2 focus:ring-blue-500 hover:bg-blue-700">
                     Add to Cart
                 </button>
             </div>
