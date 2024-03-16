@@ -84,18 +84,10 @@ class UpdateCartItem(APIView):
     def put(self, request, pk):
         user = request.user
         cart_item = CartItem.objects.get(pk=pk)
-        new_quantity = request.data.get('qantity')
-        serializer = CartItemSerializer(data=request.data)
+        serializer = CartItemSerializer(cart_item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
 
-        try:
-            if new_quantity > 0:
-                cart_item.qantity = new_quantity
-                print('cart_item', cart_item)
-                cart_item.save()
-            else:
-                return Response(serializer.errors, status=400)
-        except ValueError:
-            return Response(serializer.errors, status=400)
-
-        return Response(status=203)
        
