@@ -1,6 +1,5 @@
 from django.db import models
 from product.models import Product
-from cart.models import Checkout
 from user.models import User
 from store.models import Store, StoreProduct
 
