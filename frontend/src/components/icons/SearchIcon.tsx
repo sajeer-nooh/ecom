@@ -1,8 +1,8 @@
 import React from "react";
-import {IconSvgProps} from "../../types";
+import { IconSvgProps } from "../../types";
 
-export const SearchIcon = (props: IconSvgProps) => (
-  <svg
+export default function SearchIcon(props: IconSvgProps) {
+  return (<svg
     aria-hidden="true"
     fill="none"
     focusable="false"
@@ -27,4 +27,5 @@ export const SearchIcon = (props: IconSvgProps) => (
       strokeWidth="2"
     />
   </svg>
-);
+  );
+}
