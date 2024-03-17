@@ -32,6 +32,7 @@ class User(AbstractBaseUser):
     """
     User model user model implementation
     """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
     language = models.CharField(max_length=5, default='AR', blank=True, null=True)
     currency = models.CharField(max_length=5, default='KWD', blank=True, null=True)
@@ -62,15 +63,3 @@ class User(AbstractBaseUser):
         return self.is_admin
 
 
-
-class Customer(models.Model):
-    """
-    Customer user model implementation
-    """
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="customer", blank=True)
-
-
-
-class Address(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='address')
-    address = models.TextField()

@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from product.models import Product
 from user.models import User
@@ -21,6 +22,7 @@ ORDER_TYPE_CHOICES = [
 ]
 
 class Order(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     order_no = models.CharField(max_length=10, unique=True, default="")
     customer = models.ForeignKey(User, on_delete=models.CASCADE)  # Customer role user
     order_amount = models.DecimalField(max_digits=10, decimal_places=2)

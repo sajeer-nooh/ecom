@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from rest_framework import status
-from category.models import Category
 from user.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -33,8 +32,8 @@ class ProductCreateView(APIView):
                 }
                 return Response(response_data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except (User.DoesNotExist, Category.DoesNotExist):
-            return Response({'error': 'Invalid user or category ID provided'}, status=status.HTTP_400_BAD_REQUEST)
+        except (User.DoesNotExist):
+            return Response({'error': 'Invalid user ID provided'}, status=status.HTTP_400_BAD_REQUEST)
 
     
 class ProductDetail(APIView):

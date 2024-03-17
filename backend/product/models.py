@@ -1,6 +1,5 @@
 from django.db import models
 import uuid
-from category.models import Category
 from user.models import User
 
 
@@ -14,7 +13,3 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(default=0)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)  # Merchant type role user
     images = models.JSONField(default=list)
-    color = models.CharField(max_length=100, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True) 
-
-

@@ -12,8 +12,6 @@ class Store(models.Model):
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.TextField(blank=True) 
-    opening_hour = models.TimeField(blank=True, null=True)
-    closing_hour = models.TimeField(blank=True, null=True)
     address = models.TextField(max_length=250, blank=True, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)  # Merchant type role user
 

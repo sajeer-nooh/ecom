@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 from product.models import Product
-from user.models import User, Address
+from user.models import User
 from store.models import Store
 
 PAYMENT_METHOD_CHOICES = [
@@ -16,6 +16,7 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="cart_items")
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)

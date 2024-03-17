@@ -9,18 +9,10 @@ from .models import Store
 
 class GetAuthenticatedStore(APIView):
     def get(self, request):
-        user = request.user
-        res = Store.objects.get(owner=user)
+        user_id = request.GET.get('user_id')
+        res = Store.objects.get(owner=user_id)
         serializer = StoreSerializer(res)
         return Response(serializer.data)
         
-
-class UpdateStoreApiView(APIView):
-    def put(self, request):
-        data = request.data
-        store = get_object_or_404(Store, id=data.store_id)
-        store.currency = data.get('currenct')
-        store.language = data.get('language')
-        store.save(update_fields=['currency', 'language'])
 
 
