@@ -7,6 +7,9 @@ from product.models import Product
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 
 class CreateCart(APIView):
 
@@ -24,6 +27,9 @@ class CreateCart(APIView):
 
     
 class GetCart(APIView):
+    authentication_classes = [JWTTokenUserAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         customer_id = request.GET.get('customer_id')
 
